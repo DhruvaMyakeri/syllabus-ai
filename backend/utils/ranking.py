@@ -20,8 +20,8 @@ def score_video(video, query):
     title = video["title"].lower()
     query = query.lower()
 
-    if query in title:
-        score += 100
+    if query.split()[0] in title:
+        score += 80
 
     score += math.log(video["views"] + 1) * 2
 

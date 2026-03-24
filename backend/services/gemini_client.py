@@ -1,8 +1,7 @@
 from google import genai
 
 API_KEYS = [
-    "YOUR_KEY_1",
-    "YOUR_KEY_2"
+    "AIzaSyB0RP-4fR9Tr2FhjJXhYsWmp2fZXyoJsaE"
 ]
 
 current_key_index = 0

@@ -1,14 +1,19 @@
 from googleapiclient.discovery import build
 
+video_cache = {}
+
 def get_youtube():
-    return build("youtube", "v3", developerKey="AIzaSyAJCVp2PUdNhzJzUiIJZRWes_LPWYmvHwU")
+    return build("youtube", "v3", developerKey="AIzaSyBzOD5IQhuxSf7XX8BYZwE__5hJswBZmJw")
 
 
 def search_videos(query):
+    if query in video_cache:
+        return video_cache[query]
+
     youtube = get_youtube()
 
     search_response = youtube.search().list(
-        q=query,
+        q=f"{query} computer networks",
         part="snippet",
         maxResults=3,
         type="video"
@@ -39,4 +44,5 @@ def search_videos(query):
             "duration": stats.get("contentDetails", {}).get("duration", "")
         })
 
+    video_cache[query] = videos
     return videos

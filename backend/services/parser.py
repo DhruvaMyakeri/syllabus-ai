@@ -1,24 +1,21 @@
 import re
 
 def normalize_text(text):
-    # unify separators
     text = text.replace(";", ",")
     text = text.replace(":", ",")
     text = text.replace(".", ",")
 
-    # remove weird spacing
     text = re.sub(r"\s+", " ", text)
-
     return text
 
 
 def clean_topic(t):
     t = t.strip()
 
-    # remove "Unit 1", etc.
+    # remove unit labels
     t = re.sub(r"unit\s*\d+", "", t, flags=re.IGNORECASE)
 
-    # fix spacing like "SelectiveRepeat"
+    # split camel case
     t = re.sub(r"([a-z])([A-Z])", r"\1 \2", t)
 
     return t.strip()
@@ -26,7 +23,6 @@ def clean_topic(t):
 
 def parse_syllabus(text):
     text = normalize_text(text)
-
     parts = text.split(",")
 
     topics = []
@@ -37,9 +33,13 @@ def parse_syllabus(text):
         if len(part) < 4:
             continue
 
-        topics.append(part)
+        # split weird merged topics
+        if "?" in part:
+            topics.extend([p.strip() for p in part.split("?") if p.strip()])
+        else:
+            topics.append(part)
 
-    # remove duplicates while preserving order
+    # remove duplicates
     seen = set()
     final = []
 

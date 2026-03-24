@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from backend.services.parser import parse_syllabus
-from backend.services.expander import expand_all
 from backend.services.youtube import search_videos
 from backend.utils.ranking import rank_videos
+from backend.utils.filter import is_relevant
 
 app = FastAPI()
 
@@ -16,28 +16,47 @@ def generate_course(data: dict):
         return cache[syllabus]
 
     topics = parse_syllabus(syllabus)
-    expanded = expand_all(topics)
 
     course = []
 
-    for topic_data in expanded:
-        topic = topic_data["name"]
-        subtopics = topic_data["subtopics"][:4]
+    for topic in topics:
+        used_videos = set()
 
-        # Overview video
-        overview_videos = search_videos(f"{topic} full explanation")
-        overview_videos = rank_videos(overview_videos, topic)
-        overview = overview_videos[0] if overview_videos else None
+        # 🔥 overview
+        videos = search_videos(topic)
+        videos = rank_videos(videos, topic)
+
+        videos = [v for v in videos if is_relevant(v, topic)]
+
+        overview = videos[0] if videos else None
+
+        subtopics = [
+            f"{topic} basics",
+            f"{topic} examples",
+            f"{topic} problems",
+            f"{topic} applications"
+        ]
 
         sub_data = []
 
         for sub in subtopics:
-            videos = search_videos(f"{sub} explained")
+            videos = search_videos(sub)
             videos = rank_videos(videos, sub)
+
+            # 🔥 filter irrelevant
+            videos = [v for v in videos if is_relevant(v, sub)]
+
+            best_video = None
+
+            for v in videos:
+                if v["video_id"] not in used_videos:
+                    best_video = v
+                    used_videos.add(v["video_id"])
+                    break
 
             sub_data.append({
                 "name": sub,
-                "video": videos[0] if videos else None
+                "video": best_video
             })
 
         course.append({
