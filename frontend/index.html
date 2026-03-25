@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syllabus AI - Premium Learning Matrix</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root {
+            /* Left Side - Light / Stripe Style */
+            --light-bg: #f8f9fb;
+            --light-grid: rgba(0, 0, 0, 0.03);
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --card-bg: #ffffff;
+            --border-light: #e2e8f0;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+            --shadow-focus: 0 0 0 3px rgba(15, 23, 42, 0.1);
+            
+            /* Right Side - Dark Animated */
+            --dark-bg: #0b1120;
+            --cyan: #06b6d4;
+            --purple: #a855f7;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 50/50 Split */
+        .panel {
+            width: 50%;
+            height: 100%;
+            position: relative;
+        }
+
+        .divider {
+            width: 1px;
+            height: 100%;
+            background: var(--border-light);
+            position: absolute;
+            left: 50%;
+            top: 0;
+            z-index: 50;
+        }
+
+        /* ---------------------------
+           LEFT PANEL (Light & Premium)
+           --------------------------- */
+        .left-panel {
+            background-color: var(--light-bg);
+            background-image: 
+                linear-gradient(var(--light-grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--light-grid) 1px, transparent 1px);
+            background-size: 24px 24px;
+            background-position: center center;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .left-panel-content {
+            padding: 3.5rem 4rem;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            flex: 1;
+        }
+
+        /* Top Nav */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: -0.03em;
+            color: var(--text-dark);
+        }
+
+        .menu {
+            display: flex;
+            gap: 1.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        .menu span {
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .menu span:hover {
+            color: var(--text-dark);
+        }
+
+        /* Hero Section */
+        .overline {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.04em;
+        }
+
+        h1 span.bold {
+            font-weight: 800;
+            display: block;
+        }
+
+        h1 span.light {
+            font-weight: 400;
+            color: var(--text-muted);
+            display: block;
+        }
+
+        .desc {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+            max-width: 90%;
+        }
+
+        /* Input Box */
+        .input-wrapper {
+            position: relative;
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.25rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-light);
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            box-shadow: var(--shadow-lg), var(--shadow-focus);
+            border-color: #cbd5e1;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            background: transparent;
+            border: none;
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            line-height: 1.5;
+            resize: none;
+            outline: none;
+        }
+
+        textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        .btn-generate {
+            margin-top: 1.25rem;
+            position: relative;
+            width: 100%;
+            padding: 14px 28px;
+            background: #0f172a;
+            color: #ffffff;
+            border: 1px solid #0f172a;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        /* Tech bracket corners [ ] */
+        .btn-generate::before, .btn-generate::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border: 1.5px solid transparent;
+            transition: border-color 0.2s ease;
+        }
+
+        .btn-generate::before {
+            top: 4px;
+            left: 4px;
+            border-top-color: rgba(255,255,255,0.4);
+            border-left-color: rgba(255,255,255,0.4);
+        }
+
+        .btn-generate::after {
+            bottom: 4px;
+            right: 4px;
+            border-bottom-color: rgba(255,255,255,0.4);
+            border-right-color: rgba(255,255,255,0.4);
+        }
+
+        .btn-generate:hover {
+            background: transparent;
+            color: #0f172a;
+        }
+
+        .btn-generate:hover::before {
+            border-top-color: #0f172a;
+            border-left-color: #0f172a;
+        }
+
+        .btn-generate:hover::after {
+            border-bottom-color: #0f172a;
+            border-right-color: #0f172a;
+        }
+
+        .btn-generate:active {
+            transform: translateY(1px);
+        }
+
+        .btn-generate:disabled {
+            background: transparent;
+            color: var(--text-muted);
+            border-color: var(--border-light);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-generate:disabled::before, .btn-generate:disabled::after {
+            display: none;
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-light);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .stats-row.visible {
+            opacity: 1;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .stat-value {
+            color: var(--text-dark);
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        /* Results Display */
+        #results {
+            margin-top: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding-bottom: 4rem;
+        }
+
+        .topic-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            padding: 1.75rem;
+            box-shadow: var(--shadow-sm);
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeUp 0.5s ease forwards;
+        }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .topic-card:hover {
+            box-shadow: var(--shadow-md);
+        }
+
+        .topic-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 1.25rem;
+            letter-spacing: -0.01em;
+        }
+
+        .video-link {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--light-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: all 0.2s ease;
+            margin-bottom: 0.75rem;
+        }
+
+        .video-link:hover {
+            border-color: #cbd5e1;
+            background: #f1f5f9;
+        }
+
+        .tag-overview {
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tag-sub {
+            background: #f3e8ff;
+            color: #7e22ce;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .video-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .subtopics-list {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed var(--border-light);
+        }
+
+        /* Custom Scrollbar for Left Panel */
+        .left-panel::-webkit-scrollbar { width: 6px; }
+        .left-panel::-webkit-scrollbar-track { background: transparent; }
+        .left-panel::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+        /* ---------------------------
+           RIGHT PANEL (Dark Cinematic Canvas)
+           --------------------------- */
+        .right-panel {
+            background: radial-gradient(circle at 50% 50%, var(--dark-bg) 0%, #020617 100%);
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: crosshair;
+        }
+
+        #sysStatus {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="divider"></div>
+
+    <div class="panel left-panel">
+        <div class="left-panel-content">
+            <div class="top-nav">
+                <div class="logo">SYLLABUS.AI</div>
+                <div class="menu">
+                    <span>// SYLLABUS</span>
+                    <span>// ENGINE</span>
+                    <span>// TOPICS</span>
+                    <span>// API</span>
+                </div>
+            </div>
+
+            <div class="overline">// PARSE. STRUCTURE. LEARN.</div>
+            <h1>
+                <span class="bold">Your syllabus, decoded.</span>
+                <span class="light">Into a complete learning path.</span>
+            </h1>
+            <p class="desc">
+                Our proprietary AI engine instantly interprets unstructured syllabus text, extracts core academic concepts, and seamlessly constructs a curated hierarchy of premium video lectures.
+            </p>
+
+            <div class="input-wrapper">
+                <textarea id="syllabusInput" placeholder="Paste your syllabus here..."></textarea>
+            </div>
+            
+            <button id="generateBtn" class="btn-generate" onclick="generateCourse()">Generate Course</button>
+
+            <div id="statsRow" class="stats-row">
+                <div class="stat-item">
+                    <span>TOPICS EXTRACTED</span>
+                    <span class="stat-value" id="statTopics">-</span>
+                </div>
+                <div class="stat-item">
+                    <span>VIDEOS CURATED</span>
+                    <span class="stat-value" id="statVideos">-</span>
+                </div>
+                <div class="stat-item">
+                    <span>GENERATION TIME</span>
+                    <span class="stat-value" id="statTime">-</span>
+                </div>
+                <div class="stat-item">
+                    <span>AI ENGINE</span>
+                    <span class="stat-value">Gemini 2.5 Flash</span>
+                </div>
+            </div>
+
+            <div id="results"></div>
+        </div>
+    </div>
+
+    <div class="panel right-panel">
+        <canvas id="graphCanvas"></canvas>
+        <div id="sysStatus">STATUS: AWAITING INPUT</div>
+    </div>
+
+    <script>
+        // ----------------------------------------------------
+        // UI INTERACTION (Enter -> submit, Shift + Enter -> newLine)
+        // ----------------------------------------------------
+        const input = document.getElementById("syllabusInput");
+        input.addEventListener("keydown", function(e) {
+            if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                generateCourse();
+            }
+        });
+
+        // ----------------------------------------------------
+        // API CONNECTION & LOGIC
+        // ----------------------------------------------------
+        let startTime;
+
+        function generateCourse() {
+            const button = document.getElementById("generateBtn");
+            const syllabus = input.value;
+            const results = document.getElementById("results");
+            const status = document.getElementById("sysStatus");
+            const statsRow = document.getElementById("statsRow");
+
+            if (!syllabus.trim()) return;
+
+            button.innerText = "Generating...";
+            button.disabled = true;
+            status.innerText = "STATUS: PARSING GRAPH";
+            results.innerHTML = '';
+            statsRow.classList.remove('visible');
+
+            // Reset Graph to Transition State
+            graphState = 'transition';
+            startTime = performance.now();
+
+            fetch("http://127.0.0.1:8000/generate-course", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ syllabusText: syllabus, syllabus: syllabus })
+            })
+            .then(res => res.json())
+            .then(data => {
+                const payload = data.course || (Array.isArray(data) ? data : []);
+                
+                // Update stats
+                const endTime = performance.now();
+                const duration = ((endTime - startTime) / 1000).toFixed(2);
+                let videoCount = 0;
+                payload.forEach(t => {
+                    if (t.overview_video) videoCount++;
+                    if (t.subtopics) videoCount += t.subtopics.length;
+                });
+
+                document.getElementById('statTopics').innerText = payload.length;
+                document.getElementById('statVideos').innerText = videoCount;
+                document.getElementById('statTime').innerText = duration + 's';
+                statsRow.classList.add('visible');
+
+                renderResults(payload);
+                updateGraph({ course: payload });
+                status.innerText = "STATUS: ONLINE & MAPPED";
+            })
+            .catch(err => {
+                console.error(err);
+                results.innerHTML = `<div style="color: #ef4444; font-size: 0.9rem; padding: 1rem; background: #fee2e2; border-radius: 8px;">Error: ${err.message}</div>`;
+                status.innerText = "STATUS: CONNECTION FAILED";
+            })
+            .finally(() => {
+                button.innerText = "Generate Course";
+                button.disabled = false;
+            });
+        }
+
+        // ----------------------------------------------------
+        // VIEW: RESULTS CARDS
+        // ----------------------------------------------------
+        function renderResults(data) {
+            const container = document.getElementById('results');
+            container.innerHTML = '';
+
+            data.forEach((topic, index) => {
+                const card = document.createElement('div');
+                card.className = 'topic-card';
+                card.style.animationDelay = `${index * 0.1}s`;
+
+                let html = `<div class="topic-title">${topic.topic}</div>`;
+
+                if (topic.overview_video) {
+                    html += `
+                        <a href="https://youtube.com/watch?v=${topic.overview_video.video_id}" target="_blank" class="video-link">
+                            <span class="tag-overview">OVERVIEW</span>
+                            <span class="video-text">${topic.overview_video.title}</span>
+                        </a>
+                    `;
+                }
+
+                if (topic.subtopics && topic.subtopics.length > 0) {
+                    html += `<div class="subtopics-list">`;
+                    topic.subtopics.forEach((sub) => {
+                        if (sub.video) {
+                            html += `
+                                <a href="https://youtube.com/watch?v=${sub.video.video_id}" target="_blank" class="video-link">
+                                    <span class="tag-sub">${sub.subtopic}</span>
+                                    <span class="video-text">${sub.video.title}</span>
+                                </a>
+                            `;
+                        }
+                    });
+                    html += `</div>`;
+                }
+
+                card.innerHTML = html;
+                container.appendChild(card);
+            });
+        }
+
+        // ----------------------------------------------------
+        // GRAPH DATA BINDING
+        // ----------------------------------------------------
+        function updateGraph(data) {
+            const nodes = [];
+            const links = [];
+
+            nodes.push({ id: "Syllabus", type: "root", label: "Syllabus", color: '#ffffff' });
+
+            data.course.forEach(topic => {
+                nodes.push({ id: topic.topic, type: "topic", label: topic.topic, color: '#06b6d4' });
+                links.push({ source: "Syllabus", target: topic.topic });
+
+                if (topic.overview_video) {
+                    nodes.push({
+                        id: topic.overview_video.video_id,
+                        type: "video",
+                        label: "", color: '#a855f7'
+                    });
+                    links.push({
+                        source: topic.topic,
+                        target: topic.overview_video.video_id
+                    });
+                }
+                
+                if (topic.subtopics) {
+                    topic.subtopics.forEach((sub, j) => {
+                        if (sub.video) {
+                            const svId = sub.video.video_id + "_" + j;
+                            nodes.push({
+                                id: svId, type: "video", label: "", color: '#a855f7'
+                            });
+                            links.push({ source: topic.topic, target: svId });
+                        }
+                    });
+                }
+            });
+
+            renderGraph(nodes, links);
+        }
+
+        // ----------------------------------------------------
+        // CINEMATIC GRAPH ENGINE (HTML5 CANVAS PHYSICS) - UPGRADED
+        // ----------------------------------------------------
+        const canvas = document.getElementById('graphCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+
+        function resize() {
+            width = canvas.width = canvas.parentElement.offsetWidth;
+            height = canvas.height = canvas.parentElement.offsetHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        let graphNodes = [];
+        let graphLinks = [];
+        let graphState = 'idle'; 
+        let particles = [];      
+
+        let mouseX = -1000;
+        let mouseY = -1000;
+        let hoveredNode = null;
+        let hoveredConnectedNodes = new Set();
+        let hoveredLinks = new Set();
+
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            mouseX = -1000;
+            mouseY = -1000;
+        });
+
+        for(let i=0; i<120; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                size: Math.random() * 1.5 + 0.5,
+                alpha: Math.random() * 0.4 + 0.1
+            });
+        }
+
+        function renderGraph(nodesData, linksData) {
+            const boundNodes = nodesData.map((n, i) => ({
+                ...n,
+                x: width/2 + (Math.random()-0.5) * 200,
+                y: height/2 + (Math.random()-0.5) * 200,
+                vx: 0,
+                vy: 0,
+                radius: n.type === 'root' ? 16 : (n.type === 'topic' ? 10 : 5)
+            }));
+
+            const nodeMap = new Map(boundNodes.map(n => [n.id, n]));
+            const boundLinks = linksData.map(l => ({
+                source: nodeMap.get(l.source),
+                target: nodeMap.get(l.target)
+            })).filter(l => l.source && l.target);
+
+            graphNodes = boundNodes;
+            graphLinks = boundLinks;
+            graphState = 'active';
+        }
+
+        // Tuned Physics for Smooth Movement
+        const SPRING_K = 0.025;      
+        const REPULSION = 4000;     
+        const DAMPING = 0.88;       
+        const MAX_VELOCITY = 6.0;   
+        const ORBIT = 0.001;        
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+
+            hoveredNode = null;
+            hoveredConnectedNodes.clear();
+            hoveredLinks.clear();
+
+            if (graphState === 'active') {
+                let minDist = 40; 
+                graphNodes.forEach(n => {
+                    const dist = Math.hypot(n.x - mouseX, n.y - mouseY);
+                    const hitRadius = n.radius + 15;
+                    if (dist < hitRadius && dist < minDist) {
+                        minDist = dist;
+                        hoveredNode = n;
+                    }
+                });
+                
+                if (hoveredNode) {
+                    hoveredConnectedNodes.add(hoveredNode);
+                    graphLinks.forEach(l => {
+                        if (l.source === hoveredNode || l.target === hoveredNode) {
+                            hoveredLinks.add(l);
+                            hoveredConnectedNodes.add(l.source);
+                            hoveredConnectedNodes.add(l.target);
+                        }
+                    });
+                    document.body.style.cursor = 'pointer';
+                } else {
+                    document.body.style.cursor = 'default';
+                }
+            }
+
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > width) p.vx *= -1;
+                if (p.y < 0 || p.y > height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(6, 182, 212, ${graphState === 'transition' ? p.alpha * 2 : p.alpha})`;
+                ctx.fill();
+            });
+
+            if (graphState === 'idle' || graphState === 'transition') {
+                for(let i=0; i<particles.length; i+=4) {
+                    for(let j=i+4; j<particles.length; j+=4) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = dx*dx + dy*dy;
+                        if (dist < 20000) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            const alpha = (1 - dist/20000) * (graphState === 'transition' ? 0.3 : 0.05);
+                            ctx.strokeStyle = `rgba(168, 85, 247, ${alpha})`;
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            if (graphState === 'active') {
+                for (let i = 0; i < graphNodes.length; i++) {
+                    for (let j = i + 1; j < graphNodes.length; j++) {
+                        const dx = graphNodes[j].x - graphNodes[i].x;
+                        const dy = graphNodes[j].y - graphNodes[i].y;
+                        let distParams = dx * dx + dy * dy;
+                        let dist = Math.sqrt(distParams) || 1;
+                        
+                        const force = REPULSION / distParams;
+                        graphNodes[i].vx -= (dx / dist) * force;
+                        graphNodes[i].vy -= (dy / dist) * force;
+                        graphNodes[j].vx += (dx / dist) * force;
+                        graphNodes[j].vy += (dy / dist) * force;
+                    }
+                }
+
+                graphLinks.forEach(link => {
+                    const dx = link.target.x - link.source.x;
+                    const dy = link.target.y - link.source.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+                    
+                    const targetDist = link.target.type === 'topic' ? 190 : 85; 
+                    const force = (dist - targetDist) * SPRING_K;
+                    
+                    link.source.vx += (dx / dist) * force;
+                    link.source.vy += (dy / dist) * force;
+                    link.target.vx -= (dx / dist) * force;
+                    link.target.vy -= (dy / dist) * force;
+                });
+
+                graphNodes.forEach(node => {
+                    node.vx += (width / 2 - node.x) * ORBIT;
+                    node.vy += (height / 2 - node.y) * ORBIT;
+                    
+                    node.vx *= DAMPING;
+                    node.vy *= DAMPING;
+                    
+                    const speed = Math.hypot(node.vx, node.vy);
+                    if (speed > MAX_VELOCITY) {
+                        node.vx = (node.vx / speed) * MAX_VELOCITY;
+                        node.vy = (node.vy / speed) * MAX_VELOCITY;
+                    }
+
+                    if (speed < 0.1) {
+                         node.vx *= 0.5;
+                         node.vy *= 0.5;
+                    }
+                    
+                    if (hoveredNode === node) {
+                        node.vx *= 0.3;
+                        node.vy *= 0.3;
+                    }
+                    
+                    node.x += node.vx;
+                    node.y += node.vy;
+                });
+
+                ctx.lineWidth = 1.5;
+                graphLinks.forEach(link => {
+                    const isHoveredLink = hoveredLinks.has(link);
+                    const isDimmed = hoveredNode && !isHoveredLink;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(link.source.x, link.source.y);
+                    ctx.lineTo(link.target.x, link.target.y);
+                    
+                    if (isDimmed) {
+                        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+                    } else {
+                        const grad = ctx.createLinearGradient(link.source.x, link.source.y, link.target.x, link.target.y);
+                        grad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+                        grad.addColorStop(0.5, 'rgba(6, 182, 212, 0.6)'); 
+                        grad.addColorStop(1, 'rgba(168, 85, 247, 0.6)'); 
+                        ctx.strokeStyle = grad;
+                        
+                        if (isHoveredLink) {
+                            ctx.lineWidth = 2.5;
+                            ctx.shadowBlur = 15;
+                            ctx.shadowColor = '#06b6d4';
+                        }
+                    }
+                    
+                    ctx.stroke();
+                    ctx.lineWidth = 1.5;
+                    ctx.shadowBlur = 0;
+                });
+
+                graphNodes.forEach(node => {
+                    ctx.beginPath();
+                    
+                    const isHovered = hoveredNode === node;
+                    const isConnected = hoveredConnectedNodes.has(node);
+                    const isDimmed = hoveredNode && !isConnected;
+
+                    let currentRadius = node.radius;
+
+                    if (isHovered) {
+                        currentRadius *= 1.35;
+                        ctx.shadowBlur = Math.max(35, currentRadius * 2);
+                        ctx.shadowColor = node.color;
+                    } else if (isConnected) {
+                        ctx.shadowBlur = 20;
+                        ctx.shadowColor = node.color;
+                    } else {
+                        ctx.shadowBlur = isDimmed ? 0 : 25;
+                        ctx.shadowColor = node.color;
+                    }
+
+                    ctx.fillStyle = node.color;
+                    if (isDimmed) {
+                        ctx.globalAlpha = 0.2;
+                    }
+                    
+                    ctx.arc(node.x, node.y, currentRadius, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.shadowBlur = 0;
+                    ctx.globalAlpha = 1.0;
+
+                    if ((node.type === 'root' || node.type === 'topic') && node.label) {
+                        ctx.fillStyle = isDimmed ? 'rgba(255, 255, 255, 0.2)' : 'rgba(255, 255, 255, 0.9)';
+                        
+                        if (isHovered) {
+                            ctx.fillStyle = '#ffffff';
+                            ctx.shadowBlur = 10;
+                            ctx.shadowColor = node.color;
+                        }
+                        
+                        ctx.font = node.type === 'root' ? '600 14px Inter' : '400 11px JetBrains Mono';
+                        ctx.textAlign = 'center';
+                        
+                        let txt = node.label;
+                        if (txt.length > 20) txt = txt.substring(0, 18) + '..';
+                        ctx.fillText(txt, node.x, node.y + currentRadius + 15);
+                        ctx.shadowBlur = 0;
+                    }
+                });
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        requestAnimationFrame(animate);
+    </script>
+</body>
+</html>

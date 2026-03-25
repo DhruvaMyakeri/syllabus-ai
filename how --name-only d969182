@@ -1,0 +1,18 @@
+[33md969182[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: commit: restore frontend + stable version
+[33m7c77546[m HEAD@{1}: rebase (abort): returning to refs/heads/main
+[33m7c77546[m HEAD@{2}: rebase (abort): returning to refs/heads/main
+[33m92cd4ab[m HEAD@{3}: commit (amend): Readme update
+[33ma6b9ba7[m HEAD@{4}: checkout: moving from main to main
+[33ma6b9ba7[m HEAD@{5}: commit: Readme update
+[33m7c77546[m HEAD@{6}: checkout: moving from main to main
+[33m7c77546[m HEAD@{7}: checkout: moving from main to main
+[33m7c77546[m HEAD@{8}: reset: moving to 7c775466f39260386d4ef71579d7a082f67aaccc
+[33m7c77546[m HEAD@{9}: checkout: moving from 2025268e6ab243f15c7e318f644efd232311be81 to main
+[33m2025268[m HEAD@{10}: commit: ReadMe update
+[33md8619e0[m HEAD@{11}: reset: moving to origin/main
+[33md75ab65[m HEAD@{12}: pull origin main --rebase (start): checkout d75ab655c77cb52bd425474bddf8e90b6bf064a4
+[33m7c77546[m HEAD@{13}: commit: parsing, ranking, filtering improvement
+[33m3dc1ee2[m HEAD@{14}: commit: context filter improvement
+[33maaa3103[m HEAD@{15}: Branch: renamed refs/heads/main to refs/heads/main
+[33maaa3103[m HEAD@{17}: Branch: renamed refs/heads/master to refs/heads/main
+[33maaa3103[m HEAD@{19}: commit (initial): Initial commit: syllabus AI backend

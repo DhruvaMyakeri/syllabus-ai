@@ -9,6 +9,127 @@
     <link rel="stylesheet" crossorigin href="/assets/index-CYwg9l17.css">
   </head>
   <body>
+    <!-- Generative UI root wrapper -->
     <div id="root"></div>
+
+    <!-- UI Interaction Overlay added to maintain existing design while enabling functionality -->
+    <div style="position: absolute; top: 2rem; left: 2rem; z-index: 1000; width: 45%; pointer-events: auto;">
+        <textarea id="syllabusInput" placeholder="Paste your syllabus here..." style="width: 100%; min-height: 100px; padding: 1rem; border-radius: 8px; background: rgba(15, 23, 42, 0.8); color: #fff; border: 1px solid rgba(255,255,255,0.2); font-family: monospace;"></textarea>
+        <button id="generateBtn" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #3b82f6; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3);">Generate Course</button>
+        <div id="results" style="margin-top: 1.5rem; max-height: 50vh; overflow-y: auto; color: white;"></div>
+    </div>
+
+    <!-- Application Logic Hookup -->
+    <script>
+        // INTERACTION: Enter -> submit, Shift + Enter -> new line
+        const syllabusInput = document.getElementById("syllabusInput");
+        if (syllabusInput) {
+            syllabusInput.addEventListener("keydown", function(e) {
+                if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    generateCourse();
+                }
+            });
+        }
+
+        document.getElementById("generateBtn").addEventListener("click", generateCourse);
+
+        // API CONNECTION (MANDATORY)
+        function generateCourse() {
+            const button = document.getElementById("generateBtn");
+            const syllabus = document.getElementById("syllabusInput").value;
+
+            if (!syllabus.trim()) return;
+
+            button.innerText = "Generating...";
+            button.disabled = true;
+
+            // Clear previous results
+            document.getElementById("results").innerHTML = "";
+
+            fetch("http://127.0.0.1:8000/generate-course", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ syllabusText: syllabus }) // API expects syllabusText based on FastAPI schema
+            })
+            .then(res => res.json())
+            .then(data => {
+                renderResults(data);
+                updateGraph(data);
+            })
+            .catch(err => {
+                console.error(err);
+                document.getElementById("results").innerHTML = `<p style="color: #ef4444;">API Error: ${err.message}</p>`;
+            })
+            .finally(() => {
+                button.innerText = "Generate Course";
+                button.disabled = false;
+            });
+        }
+
+        // RESULTS DISPLAY
+        function renderResults(data) {
+            const resultsDiv = document.getElementById("results");
+            
+            // Handle if data is returned directly as list (our backend) or data.course (from prompt format)
+            const topics = Array.isArray(data) ? data : (data.course || []);
+            
+            let html = "";
+            topics.forEach(topic => {
+                html += `<div style="background: rgba(30, 41, 59, 0.9); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.1);">`;
+                html += `<h3 style="margin: 0 0 0.5rem 0; color: #06b6d4; font-size: 1.1rem;">${topic.topic}</h3>`;
+                
+                if (topic.overview_video) {
+                    html += `<a href="https://youtube.com/watch?v=${topic.overview_video.video_id}" target="_blank" style="color: #a855f7; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+                        <span>▶</span> ${topic.overview_video.title}
+                    </a>`;
+                } else {
+                    html += `<div style="color: #94a3b8; font-size: 0.9rem;">No overview video found</div>`;
+                }
+                html += `</div>`;
+            });
+            resultsDiv.innerHTML = html;
+        }
+
+        // GRAPH UPGRADE
+        function updateGraph(data) {
+            const nodes = [];
+            const links = [];
+
+            nodes.push({ id: "Syllabus", type: "root" });
+
+            // Ensure compatibility with the backend list response
+            const topics = Array.isArray(data) ? data : (data.course || []);
+
+            topics.forEach(topic => {
+                nodes.push({ id: topic.topic, type: "topic" });
+                links.push({ source: "Syllabus", target: topic.topic });
+
+                if (topic.overview_video) {
+                    nodes.push({
+                        id: topic.overview_video.video_id,
+                        type: "video"
+                    });
+                    links.push({
+                        source: topic.topic,
+                        target: topic.overview_video.video_id
+                    });
+                }
+            });
+
+            // Pass to the existing generative hero UI if exposed
+            if (typeof renderGraph === "function") {
+                renderGraph(nodes, links);
+            } else if (window.renderGraph) {
+                window.renderGraph(nodes, links);
+            } else {
+                console.warn("renderGraph is not defined in the global scope. Graph data updated:", {nodes, links});
+                // Fallback: Dispath custom event to window in case React is listening
+                window.dispatchEvent(new CustomEvent('graphDataReady', { detail: { nodes, links } }));
+            }
+        }
+    </script>
   </body>
 </html>
