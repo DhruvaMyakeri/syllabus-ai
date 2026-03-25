@@ -2,7 +2,15 @@
 
 **Syllabus AI** is a professional-grade platform designed to deconstruct unstructured academic syllabi and transform them into a cinematic, structured learning journey. Powered by **Gemini AI** and a high-performance **Neural Visualization Engine**, it bridges the gap between raw text and deep understanding.
 
-![Syllabus AI Matrix](https://via.placeholder.com/1200x600/0f172a/06b6d4?text=Neural+Knowledge+Graph+Interface)
+## 📸 Interface Preview
+
+<p align="center">
+  <img src="docs/images/input.png" width="45%" />
+  <img src="docs/images/generating.png" width="45%" /> 
+</p>
+<p align="center">
+  <img src="docs/images/results.png" width="90%" />
+</p>
 
 ---
 
