@@ -1,51 +1,43 @@
+import json
 import re
+from .gemini_client import call_gemini
 
-def normalize_text(text):
-    text = text.replace(";", ",")
-    text = text.replace(":", ",")
-    text = text.replace(".", ",")
+def parse_syllabus(syllabus_text: str) -> list:
+    prompt = f"""You are an expert academic syllabus analyzer.
+Return ONLY JSON.
+Ensure domain correctness.
+Do not hallucinate.
+Do not include markdown.
 
-    text = re.sub(r"\s+", " ", text)
-    return text
+Analyze the following syllabus text, interpret meaning (NOT just splitting strings), 
+group concepts logically, and identify the domain context.
+Remove noise like unit labels or formatting artifacts ("Unit 1", "Numerical on", etc.).
+Fix ambiguity (e.g., 'Reno' -> 'TCP Reno', 'Fragmentation' -> 'IP Fragmentation', 'Addressing' -> 'IP Addressing').
+Extract topics and meaningful subtopics. DO NOT output generic subtopics like 'basics', 'examples', 'applications'.
+ONLY output real academic concepts.
 
+Output format must be strictly a JSON list of objects without markdown backticks:
+[
+  {{
+    "topic": "Topic Name",
+    "subtopics": ["Subtopic 1", "Subtopic 2"]
+  }}
+]
 
-def clean_topic(t):
-    t = t.strip()
-
-    # remove unit labels
-    t = re.sub(r"unit\s*\d+", "", t, flags=re.IGNORECASE)
-
-    # split camel case
-    t = re.sub(r"([a-z])([A-Z])", r"\1 \2", t)
-
-    return t.strip()
-
-
-def parse_syllabus(text):
-    text = normalize_text(text)
-    parts = text.split(",")
-
-    topics = []
-
-    for part in parts:
-        part = clean_topic(part)
-
-        if len(part) < 4:
-            continue
-
-        # split weird merged topics
-        if "?" in part:
-            topics.extend([p.strip() for p in part.split("?") if p.strip()])
-        else:
-            topics.append(part)
-
-    # remove duplicates
-    seen = set()
-    final = []
-
-    for t in topics:
-        if t.lower() not in seen:
-            seen.add(t.lower())
-            final.append(t)
-
-    return final
+Syllabus text:
+{syllabus_text}
+"""
+    
+    response_text = call_gemini(prompt)
+    
+    # Clean up markdown if any
+    clean_text = re.sub(r'```json\s*', '', response_text)
+    clean_text = re.sub(r'```\s*', '', clean_text)
+    clean_text = clean_text.strip()
+    
+    try:
+        data = json.loads(clean_text)
+        return data
+    except json.JSONDecodeError as e:
+        print(f"Failed to parse JSON: {clean_text}")
+        raise ValueError("Failed to parse Gemini response as JSON")
