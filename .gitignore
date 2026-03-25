@@ -1,18 +1,57 @@
-# Python
-__pycache__/
-*.pyc
-*.pyo
+# Syllabus AI - Advanced Git Ignore
 
-# Env
+# // SECRETS & ENVIRONMENT
 .env
+.env.*
+*.local
+secrets.json
+*.key
 
-# Virtual env
-venv/
-env/
+# // DATABASE & CACHE
+*.db
+*.sqlite
+video_cache.json
+.cache/
 
-# OS
+# // SYSTEM & LOGS
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Logs
-*.log
+# // PYTHON
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# // NODE / FRONTEND
+node_modules/
+dist/
+dist-ssr
+dist/
+
+# // IDE & WORKSPACE
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+.settings/
